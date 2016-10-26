@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+
 from mysite.views import current_datetime, hours_ahead, evan
+
 from rest_framework import routers, serializers, viewsets
+
 from jam.models import Artists, Album
-from jam.API_Config import ArtistSerializer, ArtistViewSet
+from jam.API_Config import *
+from jam.jam_api import *
 from jam.views import *
 
 ############################
@@ -34,7 +38,7 @@ router.register(r'Artist', ArtistViewSet)
 ############
 
 urlpatterns = [
-    # TESTING PAGES / ADMIN PAGES
+    # ADMIN PAGES
     url(r'^admin/', admin.site.urls),   # imported
     # url(r'^hello/$', hello),          # Hello, World
     # url(r'^time/add_artist/([a-z0-9_-]{1,100})$', add_artist), # Adding Artist to DB from Spotify API
@@ -44,7 +48,11 @@ urlpatterns = [
     
     # API Pages
     url(r'^time/api/artists/([A-Za-z0-9_-]{1,10000})/$', artist_detail),
+    url(r'^time/api/features/$', features),
+
+    # PITCHFORK API
     url(r'^time/api/pitchfork/search/([A-Za-z0-9_-]{1,10000})/([A-Za-z0-9_-]{1,10000})/$', search),
+    
     # If you're intending to use the browsable API you'll probably also want to add REST framework's 
     # login and logout views. Add the following to your root urls.py file:
     # url(r'^', include(router.urls)),

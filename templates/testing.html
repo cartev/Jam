@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tester</title>
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+	<div id="testing"></div>
+	<script type="text/babel">
+		var TestingClass = React.createClass({
+			render: function(){
+				return(
+						<div id="details">
+							<h1>Hello</h1>
+							<h4>This is a testing page to see if React is working within my Django App</h4>
+							<p>The React Library Package is installed in folder ::Documents/PersonalProjects/Django/mysite/templates</p>
+						</div>
+					);
+			}
+		});
+		ReactDOM.render(
+			<TestingClass/>,
+			document.getElementById('testing')
+		);
+	</script>
+</body>

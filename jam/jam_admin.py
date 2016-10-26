@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import get_object_or_404, render
 from django.http import  Http404, HttpResponse
 
@@ -29,7 +31,7 @@ def add_artist(request, artist_query):
     new_artist.save()
 
     # temp success page redirect
-    now = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    now = datetime.strftime("%Y-%m-%d %H:%M:%S", gmtime())
     page_title = "Evan"
     pic_url = urllib2.urlopen("https://farm2.staticflickr.com/1627/24943678040_d9637bdeee_c.jpg")
     return render(request, 'time.html', {'current_time': now, 'page_title': page_title})

@@ -4,9 +4,9 @@
 
 {% block review_page_style %}
 <style>
-#article_body{
-	width: 100%;
-}
+	#article_body{
+		width: 100%;
+	}
 </style>
 {% endblock %}
 
@@ -15,7 +15,7 @@
 {% block feature_content %}
 {% load staticfiles %}
 {% load tags %}
-<div class="feature">
+<div id="feature">
 	<div class="album_review_detail_preview">
 		<h1>{{albumTitle}}</h1>
 		<h3>{{artistName}}</h3>
@@ -25,7 +25,7 @@
 	</div>
 </div>
 <div id="article_body">
-		<p>{{featureReview}}</p>
+		<p class="review">{{featureReview}}</p>
 </div>
 {% endblock %}
 
@@ -47,9 +47,9 @@ function staticSource(file){
 var ReviewPreview = React.createClass({
 	render : function(){
 		return(
-			<div class="album_review_detail_preview">
-				<h1>{{albumTitle}}</h1>
-				<h3>{{artistName}}</h3>
+			<div>
+				<h1>albumTitle</h1>
+				<h3>artistName</h3>
 			</div>
 		);
 	}
@@ -63,23 +63,6 @@ var AlbumArt = React.createClass({
 		);
 	}
 });
-var Feature = React.createClass({
-	getInitialState : function(){
-		return (
-
-		);
-	},
-	render : function(){
-		return (
-			<ReviewPreview/>
-			<AlbumArt albumTitle={}/>
-		);
-	}
-});
-ReactDOM.render(){
-	<Feature/>
-	document.getElementbyID('feature');
-}
 var ArticleBody = React.createClass({
 	render : function(){
 		return(
@@ -89,8 +72,24 @@ var ArticleBody = React.createClass({
 		);
 	}
 });
+var Feature = React.createClass({
+	getInitialState : function(){
+		return (
+
+		);
+	},
+	render : function(){
+		return (
+			<div id="Feature">
+				<ReviewPreview/>
+				<AlbumArt albumTitle={}/>
+				<ArticleBody />
+			</div>
+		);
+	}
+});
 ReactDOM.render(){
-	<ArticleBody/>
+	<Feature/>,
 	document.getElementbyID('feature');
 }
 </script>

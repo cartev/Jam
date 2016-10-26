@@ -27,15 +27,14 @@ class Album(models.Model):
     AlbumTitle = models.CharField(max_length=255)
     SpotifyAlbumID = models.CharField(primary_key=True, max_length=255)
     ArtistID = models.ForeignKey(Artists, on_delete=models.CASCADE)
-    Favorite = models.IntegerField(default=0)
+    Featured = models.BooleanField(default=False)
 
     def __unicode__(self): return u'%s' % (self.AlbumTitle)
     def toString(self):
         return '%s' % (self.AlbumTitle)
-    def Album(self):
-        return '%s' % (self.AlbumTitle)
-    def isFavorite(self):
-        return Favorite
+    def isFeatured(self):
+        return self.Featured
+
 
 class Profile(models.Model):
     RealName = models.CharField(max_length=255)
@@ -44,8 +43,13 @@ class Profile(models.Model):
     Password = models.CharField(max_length=255)
     # Avatar = models.ImageField()
 
+# This should be inherited from Album
 class Review(models.Model):
-    ArtistID = models.ForeignKey(Artists, on_delete=models.CASCADE)
     AlbumID = models.ForeignKey(Album, on_delete=models.CASCADE)
-    ReviewerProfile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    Review = models.TextField(default="")
+    Review = models.TextField(default=" ")
+
+    def __unicode__(self): return u'%s' % (self.AlbumTitle)
+    def toString(self):
+        return '%s' % (self.Review)
+
+

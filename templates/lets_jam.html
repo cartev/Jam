@@ -20,6 +20,7 @@
 	h1{
 		color: #34495E;
 		display: inline;
+		font-family: Avant Garde,Avantgarde,Century Gothic,CenturyGothic,AppleGothic,sans-serif;
 		margin-top: 0px;
 		padding-top: 0px;
 		text-transform: none;
@@ -31,16 +32,17 @@
 	}
 	h3{
 		color: #34495E;
-		font-family: "UniversLTW01-59UltraCn","Zurich W03 Light X Cnd","Helvetica Neue",Helvetica,Arial,sans-serif;
+		font-family: Avant Garde,Avantgarde,Century Gothic,CenturyGothic,AppleGothic,sans-serif;
 		text-transform: none;
 	}
 	p{
 		color: #34495E;
-		font-family: "UniversLTW01-59UltraCn","Zurich W03 Light X Cnd","Helvetica Neue",Helvetica,Arial,sans-serif;
-		font-size: 15px;
-		font-weight: bold;
 		display: flex;
-		text-transform: none;
+		font-size: 15px;
+		font-family: Tiempos,Georgia,serif;
+		font-style: normal;
+		font-weight: normal;
+		line-height: 1.5;
 	}
 	a{ /* FORMAT ALL LINKS & UNVISITED LINKS */
 		color: #FFFFFF;
@@ -60,7 +62,6 @@
 		text-decoration: underline;
 	}
 	#header_placement{
-		background-color: #CF000F;
 		float:;
 		height: 17%;
 		width: 100%;
@@ -74,18 +75,25 @@
 		padding-left: 1rem;
 		padding-right: 1rem;
 	}
-	.feature{
+	#feature{
 		height: 319px;
+		width: inherit;
   		margin-left: auto;
   		margin-right: auto;
   		padding-bottom: 1rem;
 	}
 	.album_art{
 		float: right;
+		height: auto;
+	}
+	.album_art img{
+		width: auto;
+		height: 100%;
 	}
 	.album_review_detail_preview{
 		float: left;
 		width: 45%;
+		height: auto;
 	}
 	#nav_bar{
 		color: white;
@@ -93,7 +101,6 @@
 		margin: auto;
 	}
 	#display_box{
-		margin: auto;
 		width: 62%;
 	}
 	#feature_label{
@@ -108,6 +115,16 @@
 		float: right;
 		color: white;
 	}
+	#main_logo{
+		float: left;
+		padding-left: 10px;
+	}
+	p.review{
+		font-family: Tiempos,Georgia,serif;
+		font-style: normal;
+		font-weight: normal;
+		line-height: 1.5;
+	}
 </style>
 {% endblock %}
 {% block review_page_style %}
@@ -116,12 +133,9 @@
 {% block title %}Let's Jam{% endblock %}
 
 {% block page_head %}
-<!--p>red</p-->
-<button id="login_point" onclick="toggle_login_visibility()">sign in</button>
-<h1 class="Jam">Jam</h1>
+<h1 id="main_logo" class="Jam">Jam</h1>
 <nav id="home_navigation">
 	<div id="nav_bar">
-	<a href="/time/jam_out/" class="nav">Home</a>
 	<a href="/time/jam_out/recommend/" class="nav">Recommend</a>
 	</div>
 </div>

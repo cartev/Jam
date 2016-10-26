@@ -3,8 +3,12 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from jam.models import Artists, Album
+from django.http import HttpResponse, JsonResponse
+import json
+
+from jam.models import Artists, Album, Profile
 from jam.API_Config import *
+from jam.feature_wrapper import Feature
 
 ###############################
 #   JAM API FUNCTIONS & CLASSES
@@ -40,3 +44,13 @@ class AlbumList(generics.ListCreateAPIView):
 class AlbumDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
+
+class ProfileList(generics.ListCreateAPIView):
+    querySet = Profile.objects.all()
+    serializer = ProfileSerializer
+
+@api_view(['GET', ])
+@permission_classes((AllowAny, ))
+def features(request):
+    features = [f.as_json() for f in getFeatures()]
+    return HttpResponse(json.dumps(features), content_type="application/json")

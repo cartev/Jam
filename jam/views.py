@@ -4,11 +4,12 @@ from time import gmtime, strftime
 from django.shortcuts import get_object_or_404, render
 from django.http import  Http404, HttpResponse
 
-from jam.models import Artists, Album
+from jam.models import Artists, Album, Review
 from jam.jam_admin import * 
 from jam.jam_api import *
 from jam.spotify_api import *
 from jam.pitchfork_api import *
+from jam.Singleton import Cache
 
 import json
 import urllib
@@ -34,38 +35,17 @@ echonest_shared_secret = '1b5YciWYSia7H0EMMM8rLw'
 #               CACHE
 #####################
 
-features_cache = set()
-
-########################
-#  FEATURE WRAPPER CLASS
-########################
-
-class Feature:
-
-    def __init__(self, name, title, review):
-        self.artistName = name
-        self.albumTitle = title
-        self.featureReview = review
-
-    def __unicode__(self):
-        return self.artistName + " " + self.albumTitle + " " + self.featureReview
+CACHE = Cache()
 
 #######################
 #    JAM VIEW FUNCTIONS
 #######################
 
 def lets_jam(request):
-    # Home Page of JAM
-    # Page to display Featured Favorite Albums
-    featured_albums_list = list(Album.objects.filter(Favorite=1))
-
-    if featured_albums_list != []:
+    # Feature Page
+    features = getFeatures()
+    if features != []:
         no_features = 0
-        features = []
-        for album in featured_albums_list:
-            artist = Artists.objects.get(SpotifyID=album.ArtistID_id)
-            feature = Feature(artist.ArtistName, album.AlbumTitle, "TESTING TESTING TESTING TESTINGTESTING TESTING TESTING TESTINGTESTING TESTING TESTING TESTINGTESTING TESTING TESTING TESTINGTESTING TESTING TESTING TESTING")
-            features.append(feature)
     else:
         no_features = 1
 
@@ -105,15 +85,36 @@ def lets_jam_recommend(request):
 def lets_jam_review(request, album_title):
     album_title = url_argument_parse(album_title)
     albumSet = Album.objects.filter(AlbumTitle__icontains=album_title)
-    print(albumSet)
     if not albumSet:
-        # if empty: No Corresponding Album
         raise Http404  
     else: 
-        album_title = albumSet[0].AlbumTitle
-        artist_name = Artists.objects.get(SpotifyID=albumSet[0].ArtistID.SpotifyID).ArtistName
-        review = "This is where the Full Review is" # Index and grab review.
+        album = albumSet[0]
+        album_title = album.AlbumTitle
+        artist_name = album.ArtistID.ArtistName
+        artist_name_1 = Artists.objects.get(SpotifyID=albumSet[0].ArtistID.SpotifyID).ArtistName
+        review = Review.objects.get(AlbumID=album.SpotifyAlbumID).Review
+        
         return render(request, 'album_review.html', {'albumTitle': album_title, 'artistName': artist_name, 'featureReview': review, 'article_header': "album review"})
+
+
+def post_review(request):
+    pass
+    # if not (request.method == 'POST')
+        # raise Http404
+    # try:
+        # album = Album.objects.get(AlbumTitle=request.AlbumTitle)
+        # try:
+            # review = Review.objects.get(AlbumID=album.SpotifyAlbumID)
+            # review.Review = request.ReviewText
+            # review.save()
+            # return lets_jam(request)
+        # except:
+            # Album not found
+            # raise Http404 
+    # except:
+        # Album not found
+        # raise Http404
+    
 
 ######################
 # DEPRICATED FUNCTIONS

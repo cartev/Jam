@@ -2,6 +2,11 @@
 <html lang="en">
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
     <style>
     html{ /* FULL BROWSER HTML DISPLAY */
     	height:100%;
@@ -27,8 +32,7 @@
 		-webkit-font-smoothing: antialiased;
 	}
 	header{ /* HEADER POSITION */
-		margin: auto;
-		text-align: center;
+		margin-left: auto;
 		padding:0px;
 	}
 	body{ /* BACKGROUND IMAGE & BODY TEMPLATING */
@@ -142,14 +146,5 @@
 		</div>
 	</div>
 </body>
-<script>
-function toggle_login_visibility() {
-       	var e = document.getElementById('login_profile_form');
-       	if(e.style.display == 'block')
-        	e.style.display = 'none';
-       	else
-        	e.style.display = 'inline-block';
-}
-</script>
 {% block child_scripts %}{% endblock %}
 </html>

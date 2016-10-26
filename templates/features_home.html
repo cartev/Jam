@@ -1,46 +1,73 @@
 {% extends "lets_jam.html" %}
 {% block feature_content %}
-
-{% if no_features %}
-	<h3>There are no featured albums at the moment.</h3>
-
-{% elif featured_albums %}
-	{% load tags %}
-	{% load staticfiles %}
-	{% for album in featured_albums %}
-		<div class="feature">
-			<div class="album_review_detail_preview">
-				<h1>{{album.albumTitle}}</h1>
-				<h3>{{album.artistName}}</h3>
-				<p>{{album.featureReview}}</p>
-			</div>
-			<div class="album_art">
-				<a href="/time/jam_out/{{album.albumTitle|underscore}}/">
-				<img src="/static/{{album.albumTitle|underscore}}.jpg">
-				</a>
-			</div>
-		</div>
-	{% endfor %}
-{% endif %}
-
+{% load tags %}
+{% load staticfiles %}
+<div id="feature" class="feature"></div>
 {% endblock %}
 
 {% block child_scripts %}
-<!--script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
-<script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
-<script>
-	var FeatureBlock = React.createClass({
-		render : function(){
-			return(
-				<h1>{{album.albumTitle}}</h1>
-				<h3>{{album.artistName}}</h3>
-				<p>{{album.featureReview}}</p>
-			)
-		};
-	});
-	ReactDOM.render(){
-		<FeatureBlock/>
-		document.getElementById('feature')
+<script type="text/babel">
+	function underscore(albumTitle){
+		var staticSource = "";
+	 	var under = "_";
+		for (var i = 0; i < albumTitle.length; i++){
+			if (albumTitle.charAt(i) == " "){
+				staticSource += under;
+			}else{
+				staticSource += albumTitle.charAt(i).toLowerCase();
+			}
+		}
+		return staticSource;
 	}
-</script-->
+	var featureResponse = $.getJSON("/../time/api/features/", function(){
+		console.log("success");
+	}).done(function(){
+		var data = featureResponse.responseJSON[0];
+		
+		var artist = data['artistName'];
+		var albumTitle = data['albumTitle'];
+		var reviewText = data['featureReview'];
+
+		var staticAlbumJPG = underscore(albumTitle);
+		var staticAlbumResourceURL = "/static/" + staticAlbumJPG + ".jpg";
+		var albumReviewURL = "/time/jam_out/" + staticAlbumJPG + "/"; 
+		
+		var FeatureImage = React.createClass({
+			render: function(){
+				return(
+					<div className="album_art">
+						<a href={albumReviewURL}>
+						<img src={staticAlbumResourceURL}/>
+						</a>
+					</div>
+				);	
+			}
+		});
+		var FeatureDetail = React.createClass({
+			render: function(){
+				return(
+					<div className="album_review_detail_preview">
+						<h1>{albumTitle}</h1>
+						<h3>{artist}</h3>
+						<p>{reviewText}</p>
+					</div>
+				);
+			}
+		});
+		var FeatureBlock = React.createClass({
+			render: function(){
+				return(
+					<div>
+						<FeatureDetail/>
+						<FeatureImage/>
+					</div>
+				);
+			}
+		});
+		ReactDOM.render(
+			<FeatureBlock/>,
+			document.getElementById('feature')
+		);
+	});
+</script>
 {% endblock %}
